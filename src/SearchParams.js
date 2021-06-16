@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import "regenerator-runtime/runtime";
+import Pet from "./Pet";
+import useBreedList from "./useBreedList";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("Seattle, WA");
+  const [location, setLocation] = useState("");
   const [animal, setAnimal] = useState("");
   const [breed, setBreed] = useState("");
-  const breeds = [];
+
+  const [pets, setPets] = useState([]);
+  // custom hook
+  const [breeds] = useBreedList(animal);
+
+  async function requestPets() {
+    const res = await fetch(
+      `https://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
+    );
+    const json = await res.json();
+    console.log(json);
+    setPets(json.pets);
+  }
+
+  useEffect(() => {
+    requestPets();
+  }, []); // eslint-disable-line react-hooks-exhaustive-deps
 
   return (
     <div className="search-params">
@@ -15,7 +34,7 @@ const SearchParams = () => {
           Location{" "}
           <input
             id="location"
-            value={location.toUpperCase()}
+            value={location}
             placeholder="Location"
             onChange={(event) => setLocation(event.target.value)}
           />
@@ -56,6 +75,14 @@ const SearchParams = () => {
         </label>
         <button>Submit</button>
       </form>
+      {pets.map((pet) => (
+        <Pet
+          name={pet.name}
+          breed={pet.breed}
+          animal={pet.animal}
+          key={pet.id}
+        />
+      ))}
     </div>
   );
 };
