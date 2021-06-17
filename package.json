@@ -29,6 +29,7 @@
     "babel-polyfill": "^6.26.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.12.1"
   },
   "browserslist": {
