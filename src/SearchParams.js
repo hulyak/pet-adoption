@@ -29,16 +29,18 @@ const SearchParams = () => {
   }, []); // eslint-disable-line react-hooks-exhaustive-deps
 
   return (
-    <div className="search-params">
+    <div className="my-0 mx-auto w-11/12">
       <form
+      className="p-10 mb-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center divide-y divide-gray-900"
         onSubmit={(e) => {
           e.preventDefault();
           requestPets();
         }}
       >
-        <label htmlFor="location">
+        <label htmlFor="location" className="search-label">
           Location{" "}
           <input
+            className="search-control"
             id="location"
             value={location}
             placeholder="Location"
@@ -46,9 +48,10 @@ const SearchParams = () => {
           />
         </label>
         {/* dropdown  */}
-        <label htmlFor="animal">
+        <label htmlFor="animal" className="search-label">
           Animal
           <select
+            className="search-control "
             id="animal"
             value={animal}
             onChange={(event) => setAnimal(event.target.value)}
@@ -63,9 +66,10 @@ const SearchParams = () => {
           </select>
         </label>
 
-        <label htmlFor="animal">
+        <label htmlFor="animal" className="search-label">
           Breed
           <select
+            className="search-control disabled:opacity-50"
             id="animal"
             value={breed}
             onChange={(event) => setBreed(event.target.value)}
@@ -80,9 +84,10 @@ const SearchParams = () => {
           </select>
         </label>
 
-        <label htmlFor="theme">
+        <label htmlFor="theme" className="search-label">
           Theme
           <select
+            className="search-control"
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
             onBlur={(event) => setBreed(event.target.value)}
@@ -93,7 +98,7 @@ const SearchParams = () => {
             <option value="mediumorchid">Medium orchid</option>
           </select>
         </label>
-        <button style={{ backgroundColor: theme }}>Submit</button>
+        <button style={{ backgroundColor: theme }} className="rounded px-6 py-2 text-white hover:opacity-50 border-none">Submit</button>
       </form>
       <Results pets={pets} />
     </div>
