@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import ThemeContext from "./ThemeContext";
-import "regenerator-runtime/runtime";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
 
