@@ -9,8 +9,9 @@
     "build": "npm run build:client && npm run build:server",
     "start": "npm -s run build && node dist-server/index.js",
     "dev": "parcel src/index.html",
-    "format": "prettier  --write \"src/**/*.{js,jsx}\"",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet"
+    "format": "prettier  --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

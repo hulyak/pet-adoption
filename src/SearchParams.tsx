@@ -1,15 +1,16 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, FunctionComponent } from "react";
 import ThemeContext from "./ThemeContext";
 import Results from "./Results";
 import useBreedList from "./useBreedList";
+import { Animal, Pet, PetAPIResponse } from "./APIResponseTypes";
 
-const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
+const ANIMALS: Animal[] = ["bird", "cat", "dog", "rabbit", "reptile"];
 
-const SearchParams = () => {
+const SearchParams: FunctionComponent = () => {
   const [location, setLocation] = useState("");
-  const [animal, setAnimal] = useState("");
+  const [animal, setAnimal] = useState("" as Animal);
   const [breed, setBreed] = useState("");
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState([] as Pet[]);
 
   // custom hook
   const [breeds] = useBreedList(animal);
@@ -19,22 +20,22 @@ const SearchParams = () => {
     const res = await fetch(
       `https://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
     );
-    const json = await res.json();
+    const json = (await res.json()) as PetAPIResponse;
     console.log(json);
     setPets(json.pets);
   }
 
   useEffect(() => {
-    requestPets();
+    void requestPets();
   }, []); // eslint-disable-line react-hooks-exhaustive-deps
 
   return (
     <div className="my-0 mx-auto w-11/12">
       <form
-      className="p-10 mb-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center divide-y divide-gray-900"
+        className="p-10 mb-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center divide-y divide-gray-900"
         onSubmit={(e) => {
           e.preventDefault();
-          requestPets();
+          void requestPets();
         }}
       >
         <label htmlFor="location" className="search-label">
@@ -54,8 +55,8 @@ const SearchParams = () => {
             className="search-control "
             id="animal"
             value={animal}
-            onChange={(event) => setAnimal(event.target.value)}
-            onBlur={(event) => setAnimal(event.target.value)}
+            onChange={(event) => setAnimal(event.target.value as Animal)}
+            onBlur={(event) => setAnimal(event.target.value as Animal)}
           >
             <option />
             {ANIMALS.map((animal) => (
@@ -98,7 +99,12 @@ const SearchParams = () => {
             <option value="mediumorchid">Medium orchid</option>
           </select>
         </label>
-        <button style={{ backgroundColor: theme }} className="rounded px-6 py-2 text-white hover:opacity-50 border-none">Submit</button>
+        <button
+          style={{ backgroundColor: theme }}
+          className="rounded px-6 py-2 text-white hover:opacity-50 border-none"
+        >
+          Submit
+        </button>
       </form>
       <Results pets={pets} />
     </div>
